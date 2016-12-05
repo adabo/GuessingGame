@@ -2,7 +2,7 @@
 
 int main()
 {
-	char blocks[20][3] = {{0, 'B', 'O'},
+	char blocks[21][3] = {{0, 'B', 'O'},
 						  {0, 'X', 'K'},
 						  {0, 'D', 'Q'},
 						  {0, 'C', 'P'},
@@ -21,42 +21,38 @@ int main()
 						  {0, 'F', 'S'},
 						  {0, 'L', 'Y'},
 						  {0, 'P', 'C'},
-						  {0, 'Z', 'M'}};
-	bool is_break = false;
-	bool is_possible = false;
+						  {0, 'Z', 'M'},
+						  {1,0,0}};
 	char word[10] = "ABEL";
 	
-	for (int i_word = 0; word[i_word] != '\0'; i_word++)
+	for (int i_word = 0; word[i_word] != '\0' && blocks[20][0] == 1; i_word++)
 	{
-        is_possible = false;
 		for (int i_block = 0; i_block < 20; i_block++)
 		{
-			for (int ltr = 1; ltr < 3 &&
-					blocks[i_block][0] != 1; ltr++)
+			if (blocks[i_block][0] == 1)
 			{
-				if (blocks[i_block][ltr] == word[i_word])
-				{
-					blocks[i_block][0] = 1;
-					is_possible = true;
-					is_break = true;
-					break;
-				}
+				continue;
 			}
-			if (is_break == true)
+			else if (blocks[i_block][1] == word[i_word] ||
+				blocks[i_block][2] == word[i_word])
 			{
-                is_break = false;
+				blocks[i_block][0] = 1;
 				break;
 			}
-		}
-		if (is_possible == false)
-		{
-			std::cout << "Not possible.";
-			break;
+			else if (i_block == 19)
+			{
+				blocks[20][0] = 0;
+                break;
+			}
 		}
 	}
-	if (is_possible == true)
+	if (blocks[20][0] == 1)
 	{
 		std::cout << "Possible.";
+	}
+	else
+	{
+		std::cout << "Not possible.";
 	}
 	
 	return 0;
