@@ -8,13 +8,13 @@
 // Only use Globals when you know what you're doing
 bool g_game_over = false;
 char g_player_input = '\0';
-int g_rand_num = NULL;
-int g_player_guess = NULL;
+int  g_rand_num = NULL;
+int  g_player_guess = NULL;
 
-void GameLoop()
+void StartGameLoop()
 {
 	// ------------Run Once-------------//
-	ShowMainMenu();                     //
+	ShowMainMenuScreen();               //
 	g_player_input = GetPlayerChoice(); //
 	DoPlayerChoice();                   //
 	//----------------------------------//
@@ -30,11 +30,11 @@ void DoPlayerChoice()
 {
 	if      (g_player_input == 'R')
 	{
-		ShowRules();
+		ShowRulesScreen();
 	}
 	else if (g_player_input == 'P')
 	{
-		BeginGame();
+		StartNewGame();
 	}
 	else if (g_player_input == 'Q')
 	{
@@ -42,34 +42,13 @@ void DoPlayerChoice()
 	}
 }
 
-void BeginGame()
+void StartNewGame()
 {
 	GetDifficulty();
-	PlayDifficulty();
+	StartGuessing();
 }
 
-char GetPlayerChoice()
-{
-	bool can_break = false;
-	// char g_player_input = NULL;
-    std::cout << "RPQ" << std::endl;
-	while(!can_break)
-	{
-		std::cin >> g_player_input;
-		if      (g_player_input == 'R');
-		else if (g_player_input == 'P');
-		else if (g_player_input == 'Q');
-		else
-		{
-			std::cout << "Please choose R, P, or Q." << std::endl;
-			continue;
-		}
-        can_break = !can_break;
-	}
-	return g_player_input;
-}
-
-void PlayDifficulty()
+void StartGuessing()
 {
 	bool is_correct = false;
 	g_rand_num = GetRandomNumber();
@@ -99,37 +78,34 @@ void QuitGame()
 	/* To do */
 }
 
-char GetDifficulty()
-{ // 1-10, 1-50, 1-100, 1-100
-
-	bool can_break = false;
-    std::cout << "1 2 3 4." << std::endl;
-	std::cin >> g_player_input;
-
-	while(!can_break)
-	{
-		if      (g_player_input == '1');
-		else if (g_player_input == '2');
-		else if (g_player_input == '3');
-		else if (g_player_input == '4');
-		else
-		{
-			std::cout << "Choose again." << std::endl;
-			continue;
-		}
-		can_break = true;
-	}
-	return g_player_input;
-}
-
-void ShowMainMenu()
+void ShowMainMenuScreen()
 {
 	/* To do */
 }
 
-void ShowRules()
+void ShowRulesScreen()
 {
 	/* To do */
+}
+
+void ShowDifficultyScreen()
+{
+	/* To do */
+}
+
+void SetPlayerStats()
+{
+	/* To do */
+}
+
+bool IsGameOver()
+{
+    return 0;
+}
+
+bool IsGuessCorrect()
+{
+    /*To do*/
 }
 
 int GetRandomNumber()
@@ -157,18 +133,77 @@ int GetRandomNumber()
     return (rand() % input_to_integer) + 1;
 }
 
-bool IsGuessCorrect()
+void GetMenuChoice()
 {
-    return 0;
+    /* To do*/
 }
 
-void SetPlayerStats()
+void GetDifficultyChoice()
 {
-	/* To do */
+    /* To do*/
 }
 
-bool IsGameGameOver()
+void GetGuess()
 {
-    return 0;
+    /* To do*/
+}
+
+void GetGameOverChoice()
+{
+    /* To do*/
+}
+
+void GetPlayerInput(int argcnt, char * param)
+{
+    /* To do*/
+}
+
+char GetDifficulty()
+{ // 1-10, 1-50, 1-100, 1-100
+
+	bool can_break = false;
+    std::cout << "1 2 3 4." << std::endl;
+	std::cin >> g_player_input;
+
+	while(!can_break)
+	{
+		if      (g_player_input == '1');
+		else if (g_player_input == '2');
+		else if (g_player_input == '3');
+		else if (g_player_input == '4');
+		else
+		{
+			std::cout << "Choose again." << std::endl;
+			continue;
+		}
+		can_break = true;
+	}
+	return g_player_input;
+}
+
+void GetRulesChoice()
+{
+    /*To do*/
+}
+
+char GetPlayerChoice()
+{
+	bool can_break = false;
+	// char g_player_input = NULL;
+    std::cout << "RPQ" << std::endl;
+	while(!can_break)
+	{
+		std::cin >> g_player_input;
+		if      (g_player_input == 'R');
+		else if (g_player_input == 'P');
+		else if (g_player_input == 'Q');
+		else
+		{
+			std::cout << "Please choose R, P, or Q." << std::endl;
+			continue;
+		}
+        can_break = !can_break;
+	}
+	return g_player_input;
 }
 

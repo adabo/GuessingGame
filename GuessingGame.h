@@ -1,17 +1,22 @@
-void GameLoop();
-char GetPlayerChoice();
-void ShowRules();
-void ShowMainMenu();
-void ShowDifficulties();
-int GetRandomNumber();
+void StartGameLoop();
+void StartGuessing();
+void ShowRulesScreen();
+void ShowMainMenuScreen();
+void ShowDifficultyScreen();
 bool IsGuessCorrect();
 bool IsGameOver();
 void SetPlayerStats();
 void QuitGame();
-char GetDifficulty();
 void DoPlayerChoice();
-void BeginGame();
-void PlayDifficulty();
+
+// Getters
+int  GetRandomNumber();
+void GetMenuChoice();
+void GetDifficultyChoice();
+void GetGuess();
+void GetGameOverChoice();
+void GetRulesChoice;
+void GetPlayerInput(int argcnt, char *param);
 
 // bool game_over;
 // char player_choice;
