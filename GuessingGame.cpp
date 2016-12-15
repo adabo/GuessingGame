@@ -8,6 +8,8 @@
 // Only use Globals when you know what you're doing
 bool g_game_over = false;
 char g_player_input = '\0';
+int g_rand_num = NULL;
+int g_player_guess = NULL;
 
 void GameLoop()
 {
@@ -50,7 +52,7 @@ char GetPlayerChoice()
 {
 	bool can_break = false;
 	// char g_player_input = NULL;
-
+    std::cout << "RPQ" << std::endl;
 	while(!can_break)
 	{
 		std::cin >> g_player_input;
@@ -69,21 +71,26 @@ char GetPlayerChoice()
 
 void PlayDifficulty()
 {
-	if      (g_player_input == 10)
+	bool is_correct = false;
+	g_rand_num = GetRandomNumber();
+	
+	while(!is_correct)
 	{
-		GetRandomNumber();
-	}
-	else if (g_player_input == 50)
-	{
-		GetRandomNumber();
-	}
-	else if (g_player_input == 100)
-	{
-		GetRandomNumber();
-	}
-	else if (g_player_input == 1000)
-	{
-		GetRandomNumber();
+		std::cout << "Make your Guess." << std::endl;
+		std::cin >> g_player_guess;
+
+		if (g_player_guess == g_rand_num)
+		{
+			std::cout << "You win!" << std::endl;
+		}
+		else if (g_player_guess< g_rand_num)
+		{
+			std::cout << "Higher." << std::endl;
+		}
+		else
+		{
+			std::cout << "Lower." << std::endl;
+		}
 	}
 }
 
@@ -95,17 +102,24 @@ void QuitGame()
 char GetDifficulty()
 { // 1-10, 1-50, 1-100, 1-100
 
+	bool can_break = false;
+    std::cout << "1 2 3 4." << std::endl;
 	std::cin >> g_player_input;
-	if      (g_player_input == 10);
-	else if (g_player_input == 50);
-	else if (g_player_input == 100);
-	else if (g_player_input == 1000);
-	else
-	{
-		std::cout << "Choose again." << std::endl;
-	}
 
-	return 0;
+	while(!can_break)
+	{
+		if      (g_player_input == '1');
+		else if (g_player_input == '2');
+		else if (g_player_input == '3');
+		else if (g_player_input == '4');
+		else
+		{
+			std::cout << "Choose again." << std::endl;
+			continue;
+		}
+		can_break = true;
+	}
+	return g_player_input;
 }
 
 void ShowMainMenu()
@@ -120,8 +134,27 @@ void ShowRules()
 
 int GetRandomNumber()
 { // CPU random number
+	int input_to_integer = NULL;
 
-    return 0;
+	if (g_player_input == '1')
+	{
+		input_to_integer = 10;
+	}
+	else if (g_player_input == '2')
+	{
+		input_to_integer = 50;
+	}
+	else if (g_player_input == '3')
+	{
+		input_to_integer = 100;
+	}
+	else
+	{
+		input_to_integer = 1000;
+	}
+
+	srand(time(NULL));
+    return (rand() % input_to_integer) + 1;
 }
 
 bool IsGuessCorrect()
