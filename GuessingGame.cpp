@@ -1,7 +1,10 @@
 #include "GuessingGame.h"
 #include <iostream>
 #include <ctime>
+#include <cstdarg>
 #include <cstdlib>
+#include <string>
+#include <vector>
 
 // Globals
 // *WARNING* 
@@ -15,7 +18,7 @@ void StartGameLoop()
 {
 	// ------------Run Once-------------//
 	ShowMainMenuScreen();               //
-	g_player_input = GetPlayerChoice(); //
+	g_player_input = GetMenuChoice();   //
 	DoPlayerChoice();                   //
 	//----------------------------------//
 
@@ -28,6 +31,7 @@ void StartGameLoop()
 
 void DoPlayerChoice()
 {
+	GetPlayerInput(4, "Player. You da' man.", "R", "P", "Q");
 	if      (g_player_input == 'R')
 	{
 		ShowRulesScreen();
@@ -44,7 +48,7 @@ void DoPlayerChoice()
 
 void StartNewGame()
 {
-	GetDifficulty();
+	GetDifficultyChoice();
 	StartGuessing();
 }
 
@@ -105,7 +109,7 @@ bool IsGameOver()
 
 bool IsGuessCorrect()
 {
-    /*To do*/
+    return 0;
 }
 
 int GetRandomNumber()
@@ -129,36 +133,36 @@ int GetRandomNumber()
 		input_to_integer = 1000;
 	}
 
-	srand(time(NULL));
+	srand(unsigned int(time(NULL)));
     return (rand() % input_to_integer) + 1;
-}
-
-void GetMenuChoice()
-{
-    /* To do*/
-}
-
-void GetDifficultyChoice()
-{
-    /* To do*/
 }
 
 void GetGuess()
 {
-    /* To do*/
+    /* To do */
 }
 
 void GetGameOverChoice()
 {
-    /* To do*/
+    /* To do */
 }
 
-void GetPlayerInput(int argcnt, char * param)
-{
-    /* To do*/
+void GetPlayerInput(int argcnt, char *param ...)
+{ // ("Prompt message", "Condition 1", "Condition2" ...)
+	std::vector<std::string> player_inputs;
+	// char *temp[20] = {NULL};
+	va_list args;
+	va_start(args, argcnt);
+
+	for (int i = 0; i < argcnt; i++)
+	{
+		// temp[i] = va_arg(args, char*);
+        player_inputs.push_back(va_arg(args, char*));
+	}
+	va_end(args);
 }
 
-char GetDifficulty()
+char GetDifficultyChoice()
 { // 1-10, 1-50, 1-100, 1-100
 
 	bool can_break = false;
@@ -183,10 +187,10 @@ char GetDifficulty()
 
 void GetRulesChoice()
 {
-    /*To do*/
+    /* To do */
 }
 
-char GetPlayerChoice()
+char GetMenuChoice()
 {
 	bool can_break = false;
 	// char g_player_input = NULL;
@@ -206,4 +210,9 @@ char GetPlayerChoice()
 	}
 	return g_player_input;
 }
+
+void ProcessPlayerInput(char *prompt,
+		char arg1, char arg2, char arg3, char arg4)
+{
+	std::cout << prompt << std::endl;
 
