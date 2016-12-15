@@ -4,13 +4,20 @@
 #include <cstdarg>
 #include <cstdlib>
 #include <string>
-#include <vector>
+#include <array>
+
+enum ScreenStates
+{
+	MAINMENU, DIFFICULTY, GAMEOVER, RULES
+};
+	
 
 // Globals
 // *WARNING* 
 // Only use Globals when you know what you're doing
 bool g_game_over = false;
 char g_player_input = '\0';
+char g_return_input= NULL;
 int  g_rand_num = NULL;
 int  g_player_guess = NULL;
 
@@ -18,8 +25,12 @@ void StartGameLoop()
 {
 	// ------------Run Once-------------//
 	ShowMainMenuScreen();               //
-	g_player_input = GetMenuChoice();   //
-	DoPlayerChoice();                   //
+	GetPlayerInput(
+			"What would you like to do?\n[R]ules [P]lay [Q]uit]",
+			"Try again.",
+			'R', 'P', 'Q');
+	ProcessPlayerInput("mainmenu");
+	// DoPlayerChoice();                   //
 	//----------------------------------//
 
 	// Game loop
@@ -28,6 +39,17 @@ void StartGameLoop()
 		break;
 	}
 }
+
+void ProcessPlayerInput(std::array current_screen)
+{
+	switch (ScreenStates)
+	{
+	case: MAINMENU
+		  ShowScreen();
+	case: DIFFICULTY
+		  StarGuessing();
+	case: GAMEOVER
+
 
 void DoPlayerChoice()
 {
@@ -162,57 +184,45 @@ void GetPlayerInput(int argcnt, char *param ...)
 	va_end(args);
 }
 
-char GetDifficultyChoice()
-{ // 1-10, 1-50, 1-100, 1-100
-
-	bool can_break = false;
-    std::cout << "1 2 3 4." << std::endl;
-	std::cin >> g_player_input;
-
-	while(!can_break)
-	{
-		if      (g_player_input == '1');
-		else if (g_player_input == '2');
-		else if (g_player_input == '3');
-		else if (g_player_input == '4');
-		else
-		{
-			std::cout << "Choose again." << std::endl;
-			continue;
-		}
-		can_break = true;
-	}
-	return g_player_input;
-}
-
 void GetRulesChoice()
 {
     /* To do */
 }
 
-char GetMenuChoice()
+void GetMenuChoice()
 {
-	bool can_break = false;
-	// char g_player_input = NULL;
-    std::cout << "RPQ" << std::endl;
-	while(!can_break)
-	{
-		std::cin >> g_player_input;
-		if      (g_player_input == 'R');
-		else if (g_player_input == 'P');
-		else if (g_player_input == 'Q');
-		else
-		{
-			std::cout << "Please choose R, P, or Q." << std::endl;
-			continue;
-		}
-        can_break = !can_break;
-	}
-	return g_player_input;
+
 }
 
-void ProcessPlayerInput(char *prompt,
+void GetPlayerInput(char *prompt_choice, char *prompt_error,
 		char arg1, char arg2, char arg3, char arg4)
 {
+	bool can_break = false;
 	std::cout << prompt << std::endl;
+    std::cin >> g_player_input;
+
+	while (!can_break)
+	{
+		if (g_player_input == arg1)
+	    {
+		        g_return_input = arg1;
+		}
+	    else if (g_player_input == arg2)
+	    {
+		        g_return_input = arg2;
+		}
+	    else if (g_player_input == arg3)
+	    {
+		        g_return_input = arg3;
+		}
+	    else if (g_player_input == arg4)
+	    {
+		        g_return_input = arg4;
+		}
+		else
+		{
+				std::cout << prompt_error << std::endl;
+		}
+	}
+}
 
