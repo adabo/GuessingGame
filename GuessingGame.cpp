@@ -6,115 +6,38 @@
 #include <string>
 #include <array>
 
-enum ScreenStates
+// Initialize vars
+enum ScreenState
 {
-	MAINMENU, DIFFICULTY, GAMEOVER, RULES
+	MAINMENU, RULES, DIFFICULTY, GUESS, GAMEOVER
 };
-	
 
 // Globals
 // *WARNING* 
 // Only use Globals when you know what you're doing
-bool g_game_over = false;
-char g_player_input = '\0';
-char g_return_input= NULL;
-int  g_rand_num = NULL;
-int  g_player_guess = NULL;
+ScreenState g_current_screen = MAINMENU;
+char        g_player_input = NULL;
+bool        g_quit = false;
+bool        g_game_over = false;
+char        g_return_input= NULL;
+int         g_rand_num = NULL;
+int         g_player_guess = NULL;
 
 void StartGameLoop()
 {
-	// ------------Run Once-------------//
-	ShowMainMenuScreen();               //
-	GetPlayerInput(
-			"What would you like to do?\n[R]ules [P]lay [Q]uit]",
-			"Try again.",
-			'R', 'P', 'Q');
-	ProcessPlayerInput("mainmenu");
-	// DoPlayerChoice();                   //
-	//----------------------------------//
+    bool is_game_over = false;
+	//======= Run Once ======= //
+	RunScreenMainMenu();     //
+    //======================== //
 
-	// Game loop
-	while(!g_game_over)
+	while (!g_quit)
 	{
-		break;
-	}
-}
-
-void ProcessPlayerInput(std::array current_screen)
-{
-	switch (ScreenStates)
-	{
-	case: MAINMENU
-		  ShowScreen();
-	case: DIFFICULTY
-		  StarGuessing();
-	case: GAMEOVER
-
-
-void DoPlayerChoice()
-{
-	GetPlayerInput(4, "Player. You da' man.", "R", "P", "Q");
-	if      (g_player_input == 'R')
-	{
-		ShowRulesScreen();
-	}
-	else if (g_player_input == 'P')
-	{
-		StartNewGame();
-	}
-	else if (g_player_input == 'Q')
-	{
-		QuitGame();
-	}
-}
-
-void StartNewGame()
-{
-	GetDifficultyChoice();
-	StartGuessing();
-}
-
-void StartGuessing()
-{
-	bool is_correct = false;
-	g_rand_num = GetRandomNumber();
-	
-	while(!is_correct)
-	{
-		std::cout << "Make your Guess." << std::endl;
-		std::cin >> g_player_guess;
-
-		if (g_player_guess == g_rand_num)
-		{
-			std::cout << "You win!" << std::endl;
-		}
-		else if (g_player_guess< g_rand_num)
-		{
-			std::cout << "Higher." << std::endl;
-		}
-		else
-		{
-			std::cout << "Lower." << std::endl;
-		}
+		SetScreenState(/* g_current_screen */);
+        std::cout << "to do" << std::endl;
 	}
 }
 
 void QuitGame()
-{
-	/* To do */
-}
-
-void ShowMainMenuScreen()
-{
-	/* To do */
-}
-
-void ShowRulesScreen()
-{
-	/* To do */
-}
-
-void ShowDifficultyScreen()
 {
 	/* To do */
 }
@@ -164,65 +87,110 @@ void GetGuess()
     /* To do */
 }
 
-void GetGameOverChoice()
-{
-    /* To do */
-}
-
-void GetPlayerInput(int argcnt, char *param ...)
-{ // ("Prompt message", "Condition 1", "Condition2" ...)
-	std::vector<std::string> player_inputs;
-	// char *temp[20] = {NULL};
-	va_list args;
-	va_start(args, argcnt);
-
-	for (int i = 0; i < argcnt; i++)
-	{
-		// temp[i] = va_arg(args, char*);
-        player_inputs.push_back(va_arg(args, char*));
-	}
-	va_end(args);
-}
-
-void GetRulesChoice()
-{
-    /* To do */
-}
-
-void GetMenuChoice()
-{
-
-}
-
-void GetPlayerInput(char *prompt_choice, char *prompt_error,
+void GetPlayerInput(char *prompt, char *error_prompt,
 		char arg1, char arg2, char arg3, char arg4)
 {
-	bool can_break = false;
 	std::cout << prompt << std::endl;
-    std::cin >> g_player_input;
 
-	while (!can_break)
+	while (std::cin >> g_player_input)
 	{
-		if (g_player_input == arg1)
-	    {
-		        g_return_input = arg1;
-		}
-	    else if (g_player_input == arg2)
-	    {
-		        g_return_input = arg2;
-		}
-	    else if (g_player_input == arg3)
-	    {
-		        g_return_input = arg3;
-		}
-	    else if (g_player_input == arg4)
-	    {
-		        g_return_input = arg4;
+		if (g_player_input != arg1 &&
+			g_player_input != arg2 &&
+			g_player_input != arg3 &&
+			g_player_input != arg4)
+		{
+			std::cout << error_prompt << std::endl;
+			continue;
 		}
 		else
 		{
-				std::cout << prompt_error << std::endl;
+			break;
 		}
 	}
 }
 
+void SetScreenState(/* ScreenState current_screen */)
+{
+	switch (g_current_screen)
+	{
+		case MAINMENU:
+			RunScreenMainMenu();
+            break;
+		case RULES:
+			RunScreenRules();
+            break;
+		case DIFFICULTY:
+			RunScreenDifficulty();
+            break;
+		case GUESS:
+			RunScreenGuess();
+            break;
+		case GAMEOVER:
+			RunScreenGameOver();
+            break;
+		default:
+			std::cout << "default" << std::endl;
+            break;
+	}
+}
+
+void RunScreenMainMenu()
+{
+	std::cout << "Welcome to Guessing Game!\n" << std::endl;
+	GetPlayerInput(
+		"What would you like to do?\n[R]ules [P]lay [Q]uit",
+		"Please enter R P or Q.", 'R', 'P', 'Q');
+
+	if      (g_player_input == 'R')
+	{
+		g_current_screen = RULES;
+	}
+	else if (g_player_input == 'P')
+	{
+		g_current_screen = DIFFICULTY;
+	}
+	else if (g_player_input == 'Q')
+	{
+		g_quit = true;
+	}
+}
+
+void RunScreenDifficulty()
+{
+	/* to do */
+}
+
+void RunScreenRules()
+{
+	/* to do */
+}
+
+void RunScreenGuess()
+{
+	bool is_correct = false;
+	g_rand_num = GetRandomNumber();
+	
+	while(!is_correct)
+	{
+		std::cout << "Make your Guess." << std::endl;
+		std::cin >> g_player_guess;
+
+		if (g_player_guess == g_rand_num)
+		{
+			std::cout << "You win!" << std::endl;
+		}
+		else if (g_player_guess< g_rand_num)
+		{
+			std::cout << "Higher." << std::endl;
+		}
+		else
+		{
+			std::cout << "Lower." << std::endl;
+		}
+	}
+}
+
+void RunScreenGameOver()
+{
+	/* to do */
+}
