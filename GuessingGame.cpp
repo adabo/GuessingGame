@@ -1,10 +1,8 @@
 #include "GuessingGame.h"
 #include <iostream>
 #include <ctime>
-#include <cstdarg>
 #include <cstdlib>
 #include <string>
-#include <array>
 
 // Initialize vars
 enum ScreenState
