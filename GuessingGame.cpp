@@ -23,15 +23,15 @@ int         g_player_guess = NULL;
 
 void StartGameLoop()
 {
-    bool is_game_over = false;
 	//======= Run Once ======= //
-	RunScreenMainMenu();     //
+	RunScreenMainMenu();       //
     //======================== //
 
 	while (!g_quit)
 	{
 		SetScreenState(/* g_current_screen */);
-        std::cout << "to do" << std::endl;
+        //std::cout << "to do" << std::endl;
+        break;
 	}
 }
 
