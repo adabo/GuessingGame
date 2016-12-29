@@ -2,6 +2,6 @@
 
 int main()
 {
-	StartGameLoop();
-	return 0;
+    StartGameLoop();
+    return 0;
 }
